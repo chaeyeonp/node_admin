@@ -188,6 +188,16 @@ app.post('/admin/delete', (req, res) => {
 
 
 ### 🖥 Port 4000: "localhost:4000/[url]"에서 Run
+
+#### 1. 실행 방법
+
+git clone "https://github.com/chaeyeonp/node_admin.git"
+    
+npm install
+
+npm start
+
+#### 2.API CODE
 ```
 app.listen(4000, () => console.log('localhost:4000/admin'));
 
