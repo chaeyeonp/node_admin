@@ -191,11 +191,15 @@ app.post('/admin/delete', (req, res) => {
 
 #### 1. 실행 방법
 
+```
+
 git clone "https://github.com/chaeyeonp/node_admin.git"
     
 npm install
 
 npm start
+
+```
 
 #### 2.API CODE
 ```
