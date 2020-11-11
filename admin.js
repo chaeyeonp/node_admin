@@ -201,9 +201,7 @@ input[type=submit] {
 app.post('/admin/add', (req, res) => {
     var result = req.body;
     // console.log([result.date, result.student, result.mask, result.count])
-    if (false) return res.json(false);
-    else {
-        connection.query(
+    connection.query(
             'INSERT INTO mboard (date, student, mask, count) VALUES(?, ?, ?, ?)',
             [result.date,
                 result.student,
@@ -215,15 +213,13 @@ app.post('/admin/add', (req, res) => {
 
                 if (err) throw err;
                 res.setHeader("Content-Type", "application/json");
-                return res.json(true);
+                return res.json("성공!");
             });
-        return false;
-    }
-    ;
+        return "실패!";
 });
 
 app.get('/admin/users', (req, res) => {
-    var result = req.body;
+    // var result = req.body;
     // console.log([result.date, result.student, result.mask, result.count])
     connection.query(
         'SELECT * FROM mboard',
@@ -251,24 +247,5 @@ app.post('/admin/delete', (req, res) => {
     });
 });
 
-
-app.post('/admin/update', (req, res) => {
-    var id = req.body.id;
-    connection.query('UPDATE mboard set title WHERE id=?', [id], (err, result) => {
-        if (err) throw err;
-        return res.redirect('/admin');
-    });
-});
-
-function dataFormatCheck({date, mask}) {
-    var txtSplitList = date.split('-');
-    if (txtSplitList.length < 3) return true
-    return maskCheck(mask);
-}
-
-function maskCheck(mask) {
-    if (mask.length < 2) return true;
-    return false;
-}
 
 app.listen(4000, () => console.log('localhost:4000/admin'));
