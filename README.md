@@ -2,12 +2,23 @@
 
 Node.js(Express)와 MySQL 연동
 
+
+### 실행 방법
+
+```
+git clone "https://github.com/chaeyeonp/node_admin.git"
+    
+npm install
+
+npm start
+
+```
+
 ## 📝 사용언어, 기술스택
 
 ![Generic badge](https://img.shields.io/badge/flatform-NodeJS-skyblue.svg)
 ![Generic badge](https://img.shields.io/badge/framework-Express-green.svg)
 ![Generic badge](https://img.shields.io/badge/Database-Mysql-red.svg)
-![Generic badge](https://img.shields.io/badge/ORM-Sequelize-black.svg)
 
 
 <br><br>
