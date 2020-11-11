@@ -51,6 +51,13 @@ CREATE TABLE mboard
 
 ### CONNECT Request(with SQL)
 
+#### 1. 최종결과
+
+SQL과 연결
+
+
+#### 2. API CODE
+
 ```
 var mysql = require('mysql');
 var connection = mysql.createConnection({
@@ -101,7 +108,6 @@ connection.query('SELECT * FROM mboard', (err, result) => {
 
 }
 ```
-#### 3. Description
 
 ### 🖥 '/admin/add': Add function Page
 
@@ -111,7 +117,8 @@ Main Page에서 submit을 받아서 DB에 저장 성공한 경우 -> Return 성�
                                    실패한 경우 -> Return 실패!
 
 
-2. API Code
+#### 2. API Code
+
 ```
 app.get('/admin/add', (req, res) => {
 connection.query('SELECT * FROM mboard', (err, result) => {
@@ -135,6 +142,9 @@ connection.query('SELECT * FROM mboard', (err, result) => {
 
 #### 1. 최종 결과
 
+<img width="4000" alt="스크린샷 2020-11-11 오후 9 36 53" src="https://user-images.githubusercontent.com/61309080/98812561-1014e100-2466-11eb-8d76-613e79c7b803.png">
+
+
 #### 2. API CODE
 
 ```
@@ -156,8 +166,30 @@ app.get('/admin/users', (req, res) => {
 }
 ```
 
-#### 3.Description
+### 🖥 '/admin/delete': DB에서 COLUMN 삭제
 
-##### Parameter
 
-#### Response
+#### 1. 최종 결과
+
+Main 화면과 동일 Delete 버튼 누르면 지워지기
+
+
+#### 2. API CODE
+
+```
+app.post('/admin/delete', (req, res) => {
+    var id = req.body.id;
+    connection.query('DELETE FROM mboard WHERE id=?', [id], (err, result) => {
+        if (err) throw err;
+        return res.redirect('/admin');
+    });
+});
+```
+
+
+### Port 4000: "localhost:4000/[url]"에서 
+```
+app.listen(4000, () => console.log('localhost:4000/admin'));
+
+```
+
