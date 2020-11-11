@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 app.use(express.json());
-app.use(express.urlencoded( {extended : false } ));
+app.use(express.urlencoded({extended: false}));
 
 const cors = require('cors');
 
@@ -10,36 +10,36 @@ app.use(cors());
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host    :'localhost',
-    port : 3306,
-    user : 'root',
-    password : 'park1234',
-    database:'admin'
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: 'park1234',
+    database: 'admin'
 });
 
-connection.connect(function(err){
-    if(err) throw err;
+connection.connect(function (err) {
+    if (err) throw err;
 
     console.log("Connected!")
 });
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.json("Hello World !");
 })
 
-app.get('/db',(req,res) => {
+app.get('/db', (req, res) => {
     connection.query("SELECT * FROM mboard", (err, result, field) => {
-        if(err) throw err;
+        if (err) throw err;
         return res.json(result);
     });
 });
 
-app.get('/admin', (req,res) => {
+app.get('/admin', (req, res) => {
     connection.query('SELECT * FROM mboard', (err, result) => {
         var contentsInputArea = () => {
-            if(result.length < 5) return  `
+            if (result.length < 5) return `
           <div>
-          <h2>Node_MySQL Practice</h2><br>
+          <h2><u>Node_MySQL Practice</u></h2><br>
           <form method='post', action='/admin/add', accept-charset='utf-8'>
             <div>
               <div class='input_' ><p>Date : </p></div><input type='text', name='date', placeholder="Ex) 2020-02-01" />
@@ -53,14 +53,14 @@ app.get('/admin', (req,res) => {
             <div>
               <div class='input_' ><p>Count : </p></div><input type='text', name='count' placeholder="Ex) 1" />
             </div>
-            <div><input type='submit' style='width:100px;' /></div>
+            <div><input type='submit' style='width:auto;' /></div>
           </form>
         </div>`;
             return `<p>Error</p>`;
         };
 
         var contentsTableArea = () => {
-            if(result.length < 1) return `<td>NOT DATA !</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>`;
+            if (result.length < 1) return `<td>NOT DATA !</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>`;
             var tablecontents = result.map((e) => `<tr>
           <td>${e['id']}</td>
           <td>${e['date']}</td>
@@ -73,11 +73,11 @@ app.get('/admin', (req,res) => {
           <td> 
             <form action='/admin/delete', method='post', accept-charset='utf-8'>
               <input type="hidden" name="id" value="${e['id']}" />
-              <input type="submit" value="delete" />
+              <input type="submit" value="삭제"  />
             </form>
           <td/>
         </tr>`);
-            return tablecontents.reduce((startV, endV) => startV+endV);
+            return tablecontents.reduce((startV, endV) => startV + endV);
         }
 
         res.send(
@@ -89,9 +89,10 @@ app.get('/admin', (req,res) => {
           <style>
                
           
-            * {
+            * {  
             
-  margin: 0;
+  margin-top: 1.5px;
+  margin-bottom:1.5px;
   padding: 0;
   text-align:center;
 }
@@ -108,7 +109,7 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   border: 2px solid #1c68ae;
-  width: 500px;
+  width: 1000px;
   margin: 50px auto;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,.16);
   border-radius: 2px;
@@ -197,77 +198,76 @@ input[type=submit] {
 });
 
 
-app.post('/admin/add',(req,res) => {
+app.post('/admin/add', (req, res) => {
     var result = req.body;
     // console.log([result.date, result.student, result.mask, result.count])
-    if(false) return res.json(false);
-    else{
+    if (false) return res.json(false);
+    else {
         connection.query(
             'INSERT INTO mboard (date, student, mask, count) VALUES(?, ?, ?, ?)',
-                [result.date,
+            [result.date,
                 result.student,
                 result.mask,
                 result.count],
             (err,) => {
                 console.log([result.date, result.student, result.mask, result.count])
-                console.log(err,result);
+                console.log(err, result);
 
-                if(err) throw err;
-                res.setHeader("Content-Type","application/json");
+                if (err) throw err;
+                res.setHeader("Content-Type", "application/json");
                 return res.json(true);
             });
         return false;
-    };
+    }
+    ;
 });
 
-app.get('/admin/users',(req,res) => {
+app.get('/admin/users', (req, res) => {
     var result = req.body;
     // console.log([result.date, result.student, result.mask, result.count])
-        connection.query(
-            'SELECT * FROM mboard',
-            function(err,rows){
-                if (err) {
-                    console.log('Encountered an error:', err.message);
+    connection.query(
+        'SELECT * FROM mboard',
+        function (err, rows) {
+            if (err) {
+                console.log('Encountered an error:', err.message);
 
-                    res.headers.add( 'Access-Control-Expose-Headers', 'Content-Range');
-                    res.headers.add('Content-Range','bytes : 0-9/*');
+                res.headers.add('Access-Control-Expose-Headers', 'Content-Range');
+                res.headers.add('Content-Range', 'bytes : 0-9/*');
 
-                    return res.send(500, err.message);
-                }
-
-               res.json(rows);
+                return res.send(500, err.message);
             }
 
-        );
+            res.json(rows);
+        }
+    );
 });
 
 
-
-app.post('/admin/delete', (req,res) => {
+app.post('/admin/delete', (req, res) => {
     var id = req.body.id;
     connection.query('DELETE FROM mboard WHERE id=?', [id], (err, result) => {
-        if(err) throw err;
+        if (err) throw err;
         return res.redirect('/admin');
     });
 });
 
 
-app.post('/admin/update', (req,res) => {
+app.post('/admin/update', (req, res) => {
     var id = req.body.id;
     connection.query('UPDATE mboard set title WHERE id=?', [id], (err, result) => {
-        if(err) throw err;
+        if (err) throw err;
         return res.redirect('/admin');
     });
 });
 
-function dataFormatCheck({date,mask}){
+function dataFormatCheck({date, mask}) {
     var txtSplitList = date.split('-');
-    if(txtSplitList.length < 3) return true
+    if (txtSplitList.length < 3) return true
     return maskCheck(mask);
 }
 
-function maskCheck(mask){
-    if(mask.length <2) return true;
+function maskCheck(mask) {
+    if (mask.length < 2) return true;
     return false;
 }
 
