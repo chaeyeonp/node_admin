@@ -40,7 +40,7 @@ npm start
 <img width="1047" alt="mysqldb" src="https://user-images.githubusercontent.com/61309080/98805792-7cd6ae00-245b-11eb-95d0-63e2eb121ef9.png">
 
 ```
-CREATE SCHEMA customer_services;
+CREATE SCHEMA admin;
 
 GO
 
